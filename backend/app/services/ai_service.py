@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from typing import Any
 
 from openai import AsyncOpenAI
@@ -10,9 +11,44 @@ from app.utils.dataframe_helpers import dataframe_preview, dtype_map, summarize_
 from app.utils.file_store import load_dataframe
 
 
+def _normalise_for_matching(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", value.lower())
+
+
+def _tokens_for_matching(value: str) -> set[str]:
+    return set(re.findall(r"[a-z0-9]+", value.lower().replace("_", " ")))
+
+
 def _column_matches(question: str, columns: list[str]) -> list[str]:
-    lower_question = question.lower()
-    return [column for column in columns if column.lower() in lower_question]
+    normalised_question = _normalise_for_matching(question)
+    question_tokens = _tokens_for_matching(question)
+    matches = []
+    for column in columns:
+        column_tokens = _tokens_for_matching(column)
+        if _normalise_for_matching(column) in normalised_question or column_tokens.issubset(question_tokens):
+            matches.append(column)
+    return matches
+
+
+def _mentioned_dimension_columns(question: str, columns: list[str], dtypes: dict[str, str]) -> list[str]:
+    dimension_columns = [
+        column
+        for column in columns
+        if not any(token in dtypes[column] for token in ["int", "float", "datetime"])
+    ]
+    return _column_matches(question, dimension_columns)
+
+
+def _correct_explicit_dimension(plan: AnalysisPlan, question: str, columns: list[str], dtypes: dict[str, str]) -> AnalysisPlan:
+    mentioned_dimensions = _mentioned_dimension_columns(question, columns, dtypes)
+    if len(mentioned_dimensions) != 1:
+        return plan
+
+    dimension = mentioned_dimensions[0]
+    if plan.group_by == dimension and plan.x_column == dimension:
+        return plan
+
+    return plan.model_copy(update={"x_column": dimension, "group_by": dimension})
 
 
 def _fallback_plan(question: str, columns: list[str], dtypes: dict[str, str]) -> AnalysisPlan:
@@ -36,16 +72,25 @@ def _fallback_plan(question: str, columns: list[str], dtypes: dict[str, str]) ->
         else:
             operation = "sum"
 
+    mentioned_dimensions = _mentioned_dimension_columns(question, columns, dtypes)
     if "trend" in lower_question or "over time" in lower_question or "month" in lower_question:
         x_column = datetime_columns[0] if datetime_columns else columns[0]
         chart_type = "line"
         intent = "trend"
     elif "distribution" in lower_question or "share" in lower_question or "percent" in lower_question:
-        x_column = categorical_columns[0] if categorical_columns else columns[0]
+        x_column = (
+            mentioned_dimensions[0]
+            if len(mentioned_dimensions) == 1
+            else categorical_columns[0] if categorical_columns else columns[0]
+        )
         chart_type = "pie"
         intent = "distribution"
     else:
-        x_column = categorical_columns[0] if categorical_columns else columns[0]
+        x_column = (
+            mentioned_dimensions[0]
+            if len(mentioned_dimensions) == 1
+            else categorical_columns[0] if categorical_columns else columns[0]
+        )
         chart_type = "bar"
         intent = "comparison"
 
@@ -107,6 +152,7 @@ async def build_analysis_plan(dataset_id: str, question: str) -> AnalysisPlan:
 
     content = response.choices[0].message.content or "{}"
     try:
-        return AnalysisPlan.model_validate_json(content)
+        plan = AnalysisPlan.model_validate_json(content)
+        return _correct_explicit_dimension(plan, question, columns, dtypes)
     except (ValidationError, ValueError, json.JSONDecodeError) as exc:
         raise ValueError("The AI planner returned an invalid analysis plan. Try rephrasing.") from exc
