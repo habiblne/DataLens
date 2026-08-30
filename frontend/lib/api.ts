@@ -4,7 +4,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
 
 function apiUrl(path: string): string {
   if (!API_BASE_URL) {
-    throw new Error("NEXT_PUBLIC_API_BASE_URL is not configured.");
+    throw new Error("DataLens is not configured to connect to the analysis service.");
   }
 
   return `${API_BASE_URL}${path}`;
@@ -45,7 +45,7 @@ export async function uploadCsv(file: File): Promise<UploadResponse> {
       body: formData
     });
   } catch {
-    throw new Error("Could not reach the DataLens API. Make sure the FastAPI backend is running.");
+    throw new Error("Could not reach DataLens. Please check your connection and try again.");
   }
 
   if (!response.ok) {
@@ -68,7 +68,7 @@ export async function analyzeDataset(request: AnalyzeRequest): Promise<AnalyzeRe
       body: JSON.stringify(request)
     });
   } catch {
-    throw new Error("Could not reach the DataLens API. Make sure the FastAPI backend is running.");
+    throw new Error("Could not reach DataLens. Please check your connection and try again.");
   }
 
   if (!response.ok) {

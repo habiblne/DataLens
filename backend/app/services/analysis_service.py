@@ -16,7 +16,7 @@ def _validate_plan(plan: AnalysisPlan, dataframe: pd.DataFrame) -> None:
 
     missing = [column for column in requested if column and column not in columns]
     if missing:
-        raise ValueError(f"Unknown column in analysis plan: {', '.join(missing)}")
+        raise ValueError("DataLens could not match one or more columns for that question.")
 
     if plan.operation != "count" and not plan.y_column:
         raise ValueError("A numeric column is required for this question.")

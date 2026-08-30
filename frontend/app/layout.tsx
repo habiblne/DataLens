@@ -4,7 +4,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "DataLens",
-  description: "Ask your CSV data anything."
+  description: "AI-powered CSV analysis with instant answers, charts, and insights.",
+  openGraph: {
+    title: "DataLens",
+    description: "AI-powered CSV analysis with instant answers, charts, and insights.",
+    type: "website"
+  }
 };
 
 export default function RootLayout({

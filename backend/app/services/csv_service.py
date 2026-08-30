@@ -28,8 +28,7 @@ def _read_csv(content: bytes) -> pd.DataFrame:
     try:
         return pd.read_csv(io.BytesIO(content))
     except Exception as exc:
-        detail = errors[-1] if errors else str(exc)
-        raise ValueError(f"Could not read the CSV. Check the delimiter, headers, and encoding. Details: {detail}") from exc
+        raise ValueError("Could not read the CSV. Check the delimiter, headers, and encoding.") from exc
 
 
 async def parse_and_store_csv(file: UploadFile) -> UploadResponse:
@@ -37,7 +36,7 @@ async def parse_and_store_csv(file: UploadFile) -> UploadResponse:
     if not content:
         raise ValueError("The uploaded file is empty.")
     if len(content) > MAX_UPLOAD_BYTES:
-        raise ValueError("CSV is too large for the demo limit of 10MB.")
+        raise ValueError("CSV is too large. Please upload a file up to 10MB.")
 
     dataframe = _read_csv(content)
 

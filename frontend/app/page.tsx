@@ -82,10 +82,6 @@ export default function Home() {
         <header className="mb-8 overflow-hidden rounded-lg border border-white/10 bg-slate-950/70 p-6 shadow-glow backdrop-blur lg:p-8">
           <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <div>
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-200 shadow-soft">
-              <span className="h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_18px_rgba(52,211,153,0.95)]" />
-              Hackathon MVP
-            </div>
             <h1 className="max-w-3xl text-5xl font-semibold tracking-tight text-white lg:text-7xl">
               DataLens
             </h1>
@@ -100,7 +96,7 @@ export default function Home() {
           </div>
 
           <div className="rounded-lg border border-white/10 bg-white/[0.06] p-4 shadow-soft lg:w-80">
-            <div className="text-sm font-semibold text-white">30 second demo</div>
+            <div className="text-sm font-semibold text-white">Fast analysis flow</div>
             <div className="mt-3 grid grid-cols-3 gap-2 text-center text-xs font-medium text-slate-300">
               <div className="rounded-lg border border-white/10 bg-white/5 px-2 py-3">Upload</div>
               <div className="rounded-lg border border-white/10 bg-white/5 px-2 py-3">Ask</div>

@@ -155,4 +155,4 @@ async def build_analysis_plan(dataset_id: str, question: str) -> AnalysisPlan:
         plan = AnalysisPlan.model_validate_json(content)
         return _correct_explicit_dimension(plan, question, columns, dtypes)
     except (ValidationError, ValueError, json.JSONDecodeError) as exc:
-        raise ValueError("The AI planner returned an invalid analysis plan. Try rephrasing.") from exc
+        raise ValueError("DataLens could not create a valid analysis for that question. Try rephrasing.") from exc

@@ -61,7 +61,7 @@ export default function UploadBox({ onUpload, isLoading }: UploadBoxProps) {
           </div>
           <h2 className="text-xl font-semibold tracking-tight text-white">Upload a CSV</h2>
           <p className="mt-2 max-w-xl text-sm leading-6 text-slate-400">
-            Drop a dataset here and DataLens will profile it instantly. CSV files up to 10MB work best for the demo.
+            Drop a dataset here and DataLens will profile it instantly. CSV files up to 10MB are supported.
           </p>
         </div>
         <button

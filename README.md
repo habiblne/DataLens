@@ -1,6 +1,6 @@
 # DataLens
 
-DataLens is a hackathon MVP that lets users upload a CSV, preview the dataset, ask natural-language questions, and receive a concise answer, chart, insights, and optional result table.
+DataLens is an AI-powered data analysis application that lets users upload a CSV, preview the dataset, ask natural-language questions, and receive a concise answer, chart, insights, and optional result table.
 
 ## Stack
 
@@ -16,7 +16,7 @@ DataLens is a hackathon MVP that lets users upload a CSV, preview the dataset, a
 - Safe AI planning with Pydantic validation
 - Deterministic pandas execution
 - Dynamic charts: bar, line, pie, area
-- Dark polished hackathon UI
+- Polished responsive interface
 
 ## Run Backend
 
@@ -78,7 +78,7 @@ NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
 Render environment variables:
 
 ```env
-OPENAI_API_KEY=your-openai-api-key
+OPENAI_API_KEY=<set securely in Render>
 OPENAI_MODEL=gpt-4o-mini
 CORS_ALLOWED_ORIGINS=https://your-vercel-app.vercel.app
 ```
@@ -101,7 +101,7 @@ NEXT_PUBLIC_API_BASE_URL=https://your-render-service.onrender.com
 
 Deploy the Render backend first, copy its public URL into `NEXT_PUBLIC_API_BASE_URL` in Vercel, then deploy the frontend.
 
-## Demo Flow
+## Analysis Workflow
 
 1. Start the backend.
 2. Start the frontend.
