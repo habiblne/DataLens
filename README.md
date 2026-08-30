@@ -57,6 +57,7 @@ Backend:
 ```env
 OPENAI_API_KEY=
 OPENAI_MODEL=gpt-4o-mini
+CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
 ```
 
 Frontend:
@@ -64,6 +65,41 @@ Frontend:
 ```env
 NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
 ```
+
+## Deploy Backend to Render
+
+- Service type: Web Service
+- Root directory: `backend`
+- Runtime: Python
+- Build command: `pip install -r requirements.txt`
+- Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+- Health check path: `/health`
+
+Render environment variables:
+
+```env
+OPENAI_API_KEY=your-openai-api-key
+OPENAI_MODEL=gpt-4o-mini
+CORS_ALLOWED_ORIGINS=https://your-vercel-app.vercel.app
+```
+
+The backend stores uploaded CSV data in temporary local disk. On Render, uploaded datasets can disappear after deploys or restarts.
+
+## Deploy Frontend to Vercel
+
+- Framework preset: Next.js
+- Root directory: `frontend`
+- Install command: `npm install`
+- Build command: `npm run build`
+- Output directory: leave default
+
+Vercel environment variables:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=https://your-render-service.onrender.com
+```
+
+Deploy the Render backend first, copy its public URL into `NEXT_PUBLIC_API_BASE_URL` in Vercel, then deploy the frontend.
 
 ## Demo Flow
 

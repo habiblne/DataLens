@@ -1,6 +1,14 @@
 import type { AnalyzeRequest, AnalyzeResponse, UploadResponse } from "./types";
 
-const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000").replace(/\/$/, "");
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
+
+function apiUrl(path: string): string {
+  if (!API_BASE_URL) {
+    throw new Error("NEXT_PUBLIC_API_BASE_URL is not configured.");
+  }
+
+  return `${API_BASE_URL}${path}`;
+}
 
 async function parseApiError(response: Response): Promise<string> {
   try {
@@ -28,10 +36,11 @@ async function parseApiError(response: Response): Promise<string> {
 export async function uploadCsv(file: File): Promise<UploadResponse> {
   const formData = new FormData();
   formData.append("file", file);
+  const url = apiUrl("/upload");
 
   let response: Response;
   try {
-    response = await fetch(`${API_BASE_URL}/upload`, {
+    response = await fetch(url, {
       method: "POST",
       body: formData
     });
@@ -47,9 +56,11 @@ export async function uploadCsv(file: File): Promise<UploadResponse> {
 }
 
 export async function analyzeDataset(request: AnalyzeRequest): Promise<AnalyzeResponse> {
+  const url = apiUrl("/analyze");
+
   let response: Response;
   try {
-    response = await fetch(`${API_BASE_URL}/analyze`, {
+    response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

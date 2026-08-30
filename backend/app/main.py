@@ -1,3 +1,5 @@
+import os
+
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -5,6 +7,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routes import analyze, upload
 
 load_dotenv()
+
+DEFAULT_CORS_ORIGINS = (
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+)
+
+
+def _cors_origins() -> list[str]:
+    raw_origins = os.getenv("CORS_ALLOWED_ORIGINS", "")
+    configured_origins = [origin.strip().rstrip("/") for origin in raw_origins.split(",") if origin.strip()]
+    return configured_origins or list(DEFAULT_CORS_ORIGINS)
+
 
 app = FastAPI(
     title="DataLens API",
@@ -14,7 +28,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=_cors_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
