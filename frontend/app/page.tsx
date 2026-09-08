@@ -1,4 +1,4 @@
-"use client";
+1"use client";
 
 import { useState } from "react";
 
@@ -84,9 +84,28 @@ export default function Home() {
         <header className="mb-8 overflow-hidden rounded-lg border border-white/[0.08] bg-slate-950/60 p-6 shadow-card backdrop-blur-xl lg:p-8">
           <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
             <div>
-              <h1 className="max-w-3xl bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-5xl font-bold tracking-tight text-transparent lg:text-7xl">
-                DataLens
-              </h1>
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-emerald-500/25 bg-emerald-500/10 shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                  <svg className="h-6 w-6" viewBox="0 0 32 32" fill="none">
+                    <circle cx="16" cy="16" r="9" stroke="url(#hGrad)" strokeWidth="2" strokeDasharray="44 8" strokeLinecap="round"/>
+                    <rect x="11" y="15" width="1.5" height="5" rx="0.75" fill="#34d399"/>
+                    <rect x="14" y="13" width="1.5" height="7" rx="0.75" fill="#6ee7b7"/>
+                    <rect x="17" y="16" width="1.5" height="4" rx="0.75" fill="#38bdf8"/>
+                    <rect x="20" y="14" width="1.5" height="6" rx="0.75" fill="#818cf8"/>
+                    <circle cx="16" cy="16" r="1.5" fill="#ffffff"/>
+                    <defs>
+                      <linearGradient id="hGrad" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stopColor="#34d399"/>
+                        <stop offset="50%" stopColor="#10b981"/>
+                        <stop offset="100%" stopColor="#06b6d4"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </span>
+                <h1 className="max-w-3xl bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-5xl font-bold tracking-tight text-transparent lg:text-7xl">
+                  DataLens
+                </h1>
+              </div>
               <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
                 Ask your data anything. Upload a CSV, get a fast answer, see the chart, and walk away with the story.
               </p>
