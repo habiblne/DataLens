@@ -16,9 +16,12 @@ export default function SummaryCards({ dataset }: SummaryCardsProps) {
   return (
     <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
       {cards.map((card) => (
-        <div key={card.label} className="rounded-lg border border-white/10 bg-white/[0.06] p-4 shadow-soft backdrop-blur">
-          <div className="text-xs font-medium uppercase tracking-wide text-slate-500">{card.label}</div>
-          <div className="mt-2 text-3xl font-semibold tracking-tight text-white">{card.value}</div>
+        <div
+          key={card.label}
+          className="group relative overflow-hidden rounded-lg border border-white/[0.08] bg-slate-900/40 p-4 shadow-card backdrop-blur-md transition-all duration-300 hover:border-white/20 hover:bg-slate-900/60"
+        >
+          <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">{card.label}</div>
+          <div className="mt-2 text-3xl font-bold tracking-tight text-white">{card.value}</div>
           <div className="mt-1 text-sm text-slate-400">{card.detail}</div>
         </div>
       ))}

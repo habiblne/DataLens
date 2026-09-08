@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 
+import dynamic from "next/dynamic";
+
 import AskForm from "@/components/AskForm";
-import ChartRenderer from "@/components/ChartRenderer";
+const ChartRenderer = dynamic(() => import("@/components/ChartRenderer"), { ssr: false });
 import DataPreview from "@/components/DataPreview";
 import ErrorAlert from "@/components/ErrorAlert";
 import InsightsPanel from "@/components/InsightsPanel";
@@ -79,33 +81,42 @@ export default function Home() {
   return (
     <main className="min-h-screen px-6 py-8 text-slate-100 lg:px-10">
       <div className="mx-auto max-w-7xl">
-        <header className="mb-8 overflow-hidden rounded-lg border border-white/10 bg-slate-950/70 p-6 shadow-glow backdrop-blur lg:p-8">
+        <header className="mb-8 overflow-hidden rounded-lg border border-white/[0.08] bg-slate-950/60 p-6 shadow-card backdrop-blur-xl lg:p-8">
           <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
-          <div>
-            <h1 className="max-w-3xl text-5xl font-semibold tracking-tight text-white lg:text-7xl">
-              DataLens
-            </h1>
-            <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
-              Ask your data anything. Upload a CSV, get a fast answer, see the chart, and walk away with the story.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3 text-sm text-slate-300">
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5">CSV preview</span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5">AI analysis plan</span>
-              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5">Charts and insights</span>
+            <div>
+              <h1 className="max-w-3xl bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-5xl font-bold tracking-tight text-transparent lg:text-7xl">
+                DataLens
+              </h1>
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+                Ask your data anything. Upload a CSV, get a fast answer, see the chart, and walk away with the story.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3 text-sm text-slate-300">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur shadow-sm transition-colors hover:border-white/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                  CSV preview
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur shadow-sm transition-colors hover:border-white/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
+                  AI analysis plan
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-slate-300 backdrop-blur shadow-sm transition-colors hover:border-white/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.8)]" />
+                  Charts and insights
+                </span>
+              </div>
             </div>
-          </div>
 
-          <div className="rounded-lg border border-white/10 bg-white/[0.06] p-4 shadow-soft lg:w-80">
-            <div className="text-sm font-semibold text-white">Fast analysis flow</div>
-            <div className="mt-3 grid grid-cols-3 gap-2 text-center text-xs font-medium text-slate-300">
-              <div className="rounded-lg border border-white/10 bg-white/5 px-2 py-3">Upload</div>
-              <div className="rounded-lg border border-white/10 bg-white/5 px-2 py-3">Ask</div>
-              <div className="rounded-lg border border-emerald-400/30 bg-emerald-400/15 px-2 py-3 text-emerald-100">Reveal</div>
+            <div className="rounded-lg border border-white/[0.08] bg-slate-900/40 p-4 shadow-card backdrop-blur-md lg:w-80">
+              <div className="text-sm font-semibold text-white">Fast analysis flow</div>
+              <div className="mt-3 grid grid-cols-3 gap-2 text-center text-xs font-medium text-slate-300">
+                <div className="rounded-lg border border-white/[0.08] bg-white/[0.03] px-2 py-3 transition-colors hover:border-white/20">Upload</div>
+                <div className="rounded-lg border border-white/[0.08] bg-white/[0.03] px-2 py-3 transition-colors hover:border-white/20">Ask</div>
+                <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/15 px-2 py-3 font-semibold text-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.15)]">Reveal</div>
+              </div>
+              <div className="mt-4 rounded-lg border border-white/[0.06] bg-slate-950/80 p-3 text-sm leading-6 text-slate-300 shadow-inner">
+                Built for quick storytelling: metadata, chart, answer, and insights in one flow.
+              </div>
             </div>
-            <div className="mt-4 rounded-lg bg-slate-950/70 p-3 text-sm leading-6 text-slate-300">
-              Built for quick storytelling: metadata, chart, answer, and insights in one flow.
-            </div>
-          </div>
           </div>
         </header>
 
@@ -122,8 +133,8 @@ export default function Home() {
                 <DataPreview dataset={dataset} onReset={resetDataset} />
               </>
             ) : (
-              <section className="rounded-lg border border-dashed border-white/15 bg-white/[0.04] p-8 text-center shadow-soft backdrop-blur">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-sm font-bold text-emerald-200">
+              <section className="rounded-lg border border-dashed border-white/15 bg-slate-950/30 p-8 text-center shadow-card backdrop-blur transition-all hover:border-white/25">
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-sm font-bold text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.15)]">
                   CSV
                 </div>
                 <h2 className="text-xl font-semibold tracking-tight text-white">Your dataset preview will appear here</h2>
@@ -141,8 +152,11 @@ export default function Home() {
 
             {result ? (
               <>
-                <section className="rounded-lg border border-emerald-400/25 bg-emerald-400/[0.08] p-5 text-white shadow-glow">
-                  <div className="text-xs font-medium uppercase tracking-wide text-emerald-200">Answer</div>
+                <section className="relative overflow-hidden rounded-lg border border-emerald-500/30 bg-gradient-to-b from-emerald-500/10 via-emerald-950/20 to-slate-950/80 p-5 text-white shadow-glow backdrop-blur-xl">
+                  <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-emerald-300">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                    Answer
+                  </div>
                   {lastQuestion ? <p className="mt-2 text-sm text-slate-300">{lastQuestion}</p> : null}
                   <p className="mt-4 text-2xl font-semibold leading-9 tracking-tight text-white">{result.answer}</p>
                 </section>
@@ -150,8 +164,8 @@ export default function Home() {
                 <InsightsPanel insights={result.insights} />
               </>
             ) : (
-              <section className="rounded-lg border border-white/10 bg-white/[0.05] p-5 shadow-soft backdrop-blur">
-                <div className="text-xs font-medium uppercase tracking-wide text-slate-500">Ready when you are</div>
+              <section className="rounded-lg border border-white/[0.08] bg-slate-950/40 p-5 shadow-card backdrop-blur">
+                <div className="text-xs font-medium uppercase tracking-wider text-slate-400">Ready when you are</div>
                 <h2 className="mt-1 text-xl font-semibold tracking-tight text-white">Answers appear here</h2>
                 <p className="mt-2 text-sm leading-6 text-slate-400">
                   Once a dataset is uploaded, ask for trends, top categories, underperforming segments, or totals by group.

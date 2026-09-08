@@ -43,8 +43,10 @@ export default function UploadBox({ onUpload, isLoading }: UploadBoxProps) {
       }}
       onDragLeave={() => setIsDragging(false)}
       onDrop={handleDrop}
-      className={`rounded-lg border bg-slate-950/75 p-6 shadow-glow backdrop-blur transition ${
-        isDragging ? "border-emerald-300 ring-4 ring-emerald-400/15" : "border-white/10"
+      className={`rounded-lg border bg-slate-950/60 p-6 shadow-card backdrop-blur-xl transition-all duration-300 ${
+        isDragging
+          ? "border-emerald-400/80 shadow-glow ring-4 ring-emerald-400/15"
+          : "border-white/[0.08] hover:border-white/20"
       }`}
     >
       <input
@@ -56,7 +58,7 @@ export default function UploadBox({ onUpload, isLoading }: UploadBoxProps) {
       />
       <div className="flex items-start justify-between gap-6">
         <div>
-          <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-emerald-400/30 bg-emerald-400/15 text-sm font-bold text-emerald-200">
+          <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg border border-emerald-500/25 bg-emerald-500/10 text-sm font-bold text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.15)] ring-1 ring-white/5">
             CSV
           </div>
           <h2 className="text-xl font-semibold tracking-tight text-white">Upload a CSV</h2>
@@ -68,7 +70,7 @@ export default function UploadBox({ onUpload, isLoading }: UploadBoxProps) {
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={isLoading}
-          className="shrink-0 rounded-lg bg-emerald-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-glow transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:bg-slate-600 disabled:text-slate-300"
+          className="shrink-0 rounded-lg bg-gradient-to-r from-emerald-400 to-teal-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-[0_0_20px_rgba(16,185,129,0.25)] transition-all hover:from-emerald-300 hover:to-teal-300 hover:shadow-[0_0_25px_rgba(16,185,129,0.4)] active:scale-[0.98] disabled:cursor-not-allowed disabled:from-slate-800 disabled:to-slate-800 disabled:text-slate-500 disabled:shadow-none"
         >
           {isLoading ? "Uploading..." : "Choose file"}
         </button>
