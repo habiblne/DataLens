@@ -7,20 +7,41 @@ export const metadata: Metadata = {
   title: "DataLens — AI CSV Analysis & Insights",
   description: "Ask your data anything. AI-powered CSV analysis with instant answers, charts, and insights.",
   icons: {
-    icon: "/icon.svg",
-    apple: "/apple-icon.svg"
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" }
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
+    ]
   },
   openGraph: {
     title: "DataLens — AI CSV Analysis & Insights",
     description: "Ask your data anything. AI-powered CSV analysis with instant answers, charts, and insights.",
     url: "https://datalens-frontend-steel.vercel.app",
     siteName: "DataLens",
-    type: "website"
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "DataLens — AI CSV Analysis & Insights"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
     title: "DataLens — AI CSV Analysis & Insights",
-    description: "Ask your data anything. AI-powered CSV analysis with instant answers, charts, and insights."
+    description: "Ask your data anything. AI-powered CSV analysis with instant answers, charts, and insights.",
+    images: ["/og-image.png"]
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "DataLens"
   }
 };
 
